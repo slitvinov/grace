@@ -99,26 +99,34 @@ $ nvidia-smi
 +---------------------------------------------------------------------------------------+
 ```
 
-# Build chain from the source
+# Build tool-chain from the source
 
 [GCC](https://docs.nvidia.com/grace-performance-tuning-guide.pdf)
 
 ```
-wget -q https://ftp.gnu.org/gnu/gcc/gcc-12.3.0/gcc-12.3.0.tar.gz
-tar -xzf gcc-12.3.0.tar.gz
-cd gcc-12.3.0
+wget -q https://ftp.gnu.org/gnu/gcc/gcc-14.1.0/gcc-14.1.0.tar.gz
+tar -xzf gcc-14.1.0.tar.gz
+cd gcc-14.1.0
 ./contrib/download_prerequisites
 ./configure --disable-multilib --enable-shared --enable-languages=c,c++,fortran --prefix=$HOME/.grace
 MAKEFLAGS=-j`nproc` make install
 ```
 
-[OpenMPI](https://nvidia.github.io/grace-cpu-benchmarking-guide/benchmarks/Graph500/index.html)
+[OpenMPI](https://nvidia.github.io/grace-cpu-benchmarking-guide/benchmarks/Graph500/index.html), needs [libevent](https://libevent.org)
+
+```
+wget -q https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz
+tar -xzf libevent-2.1.12-stable.tar.gz
+cd libevent-2.1.12-stable
+./configure --prefix=$HOME/.grace
+MAKEFLAGS=-j`nproc` make install
+```
 
 ```
 wget -q https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-5.0.1.tar.gz
 tar -xzf openmpi-5.0.1.tar.gz
 cd openmpi-5.0.1
-PATH=$HOME/.grace/bin:$PATH ./configure --prefix=$HOME/.grace --without-libevent
+PKG_CONFIG_PATH=$HOME/.grace/lib/pkgconfig:$PKG_CONFIG_PATH PATH=$HOME/.grace/bin:$PATH ./configure --prefix=$HOME/.grace
 MAKEFLAGS=-j`nproc` make install
 ```
 
@@ -127,8 +135,6 @@ MAKEFLAGS=-j`nproc` make install
 <https://nvidia.github.io/grace-cpu-benchmarking-guide/foundations/FMA/index.html>
 
 ```
-$ pwd
-/n/holyscratch01/koumoutsakos_lab/slitvinov
 git clone https://github.com/NVIDIA/arm-kernels.git
 cd arm-kernels
 make
