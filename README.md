@@ -1,9 +1,8 @@
 # Intro
 
 https://developer.nvidia.com/grace-cpu
-https://developer.nvidia.com/grace-cpu
 https://nvidia.github.io/grace-cpu-benchmarking-guide
-git@github.com:NVIDIA/grace-cpu-benchmarking-guide
+https://github.com/NVIDIA/grace-cpu-benchmarking-guide
 
 # Config
 
