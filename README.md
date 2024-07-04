@@ -24,6 +24,81 @@ Host grace2
      ProxyJump rc
 ```
 
+# System
+
+```
+$ lscpu
+Architecture:           aarch64
+  CPU op-mode(s):       64-bit
+  Byte Order:           Little Endian
+CPU(s):                 72
+  On-line CPU(s) list:  0-71
+Vendor ID:              ARM
+  Model name:           Neoverse-V2
+    Model:              0
+    Thread(s) per core: 1
+    Core(s) per socket: 72
+    Socket(s):          1
+    Stepping:           r0p0
+    Frequency boost:    disabled
+    CPU max MHz:        3438.0000
+    CPU min MHz:        81.0000
+    BogoMIPS:           2000.00
+    Flags:              fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm js
+			cvt fcma lrcpc dcpop sha3 sm3 sm4 asimddp sha512 sve asimdfhm dit uscat ilrcpc fl
+			agm ssbs sb dcpodp sve2 sveaes svepmull svebitperm svesha3 svesm4 flagm2 frint sv
+			ei8mm svebf16 i8mm bf16 dgh
+Caches (sum of all):
+  L1d:                  4.5 MiB (72 instances)
+  L1i:                  4.5 MiB (72 instances)
+  L2:                   72 MiB (72 instances)
+  L3:                   114 MiB (1 instance)
+NUMA:
+  NUMA node(s):         8
+  NUMA node0 CPU(s):    0-71
+  NUMA node2 CPU(s):
+  NUMA node3 CPU(s):
+  NUMA node4 CPU(s):
+  NUMA node5 CPU(s):
+  NUMA node6 CPU(s):
+  NUMA node7 CPU(s):
+  NUMA node8 CPU(s):
+Vulnerabilities:
+  Gather data sampling: Not affected
+  Itlb multihit:        Not affected
+  L1tf:                 Not affected
+  Mds:                  Not affected
+  Meltdown:             Not affected
+  Mmio stale data:      Not affected
+  Retbleed:             Not affected
+  Spec rstack overflow: Not affected
+  Spec store bypass:    Mitigation; Speculative Store Bypass disabled via prctl
+  Spectre v1:           Mitigation; __user pointer sanitization
+  Spectre v2:           Not affected
+  Srbds:                Not affected
+  Tsx async abort:      Not affected
+$ nvidia-smi
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.154.05             Driver Version: 535.154.05   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA GH200 480GB             Off | 00000009:01:00.0 Off |                    0 |
+| N/A   38C    P0             106W / 900W |      1MiB / 97871MiB |      2%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+```
+
 # Build chain from the source
 
 [GCC](https://docs.nvidia.com/grace-performance-tuning-guide.pdf)
