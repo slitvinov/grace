@@ -24,7 +24,10 @@ Host grace2
      ProxyJump rc
 ```
 
-# Bbuild chain from the source
+# Build chain from the source
+
+Recommended in
+[grace-performance-tuning-guide](https://docs.nvidia.com/grace-performance-tuning-guide.pdf)
 
 ```
 wget -q https://ftp.gnu.org/gnu/gcc/gcc-12.3.0/gcc-12.3.0.tar.gz
@@ -32,7 +35,8 @@ tar -xzf gcc-12.3.0.tar.gz
 cd gcc-12.3.0
 ./contrib/download_prerequisites
 ./configure --disable-multilib --enable-shared --enable-languages=c,c++,fortran --prefix=$HOME/.grace
-make -j144
+make -j `nproc`
+make install
 ```
 
 # Benchmarks
@@ -207,3 +211,5 @@ Time for BFS 12 is 4.565616
 TEPS for BFS 12 is 9.4071e+08
 Validating BFS 12
 ```
+
+aphros
