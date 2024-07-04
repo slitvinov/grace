@@ -1,8 +1,8 @@
 # Intro
 
-https://developer.nvidia.com/grace-cpu
-https://nvidia.github.io/grace-cpu-benchmarking-guide
-https://github.com/NVIDIA/grace-cpu-benchmarking-guide
+- https://developer.nvidia.com/grace-cpu
+- https://nvidia.github.io/grace-cpu-benchmarking-guide
+- https://github.com/NVIDIA/grace-cpu-benchmarking-guide
 
 # Configs
 
@@ -22,6 +22,17 @@ Host grace2
      HostName holygpu7c1103
      User slitvinov
      ProxyJump rc
+```
+
+# Bbuild chain from the source
+
+```
+wget -q https://ftp.gnu.org/gnu/gcc/gcc-12.3.0/gcc-12.3.0.tar.gz
+tar -xzf gcc-12.3.0.tar.gz
+cd gcc-12.3.0
+./contrib/download_prerequisites
+./configure --disable-multilib --enable-shared --enable-languages=c,c++,fortran --prefix=$HOME/.grace
+make -j144
 ```
 
 # Benchmarks
