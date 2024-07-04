@@ -4,9 +4,9 @@ https://developer.nvidia.com/grace-cpu
 https://nvidia.github.io/grace-cpu-benchmarking-guide
 https://github.com/NVIDIA/grace-cpu-benchmarking-guide
 
-# Config
+# Configs
 
-`.ssh/config` snippet
+There are two nodes, `.ssh/config` snippet:
 
 ```
 Host rc
@@ -133,4 +133,68 @@ module purge
 module load mpi/openmpi-aarch64
 make
 (unset SKIP_BFS && SKIP_VALIDATION=1 && mpiexec --map-by core graph500_reference_bfs 28 16 )
+Running BFS 0
+Time for BFS 0 is 4.516987
+TEPS for BFS 0 is 9.50838e+08
+Validating BFS 0
+Validate time for BFS 0 is 21.339114
+Running BFS 1
+Time for BFS 1 is 4.395484
+TEPS for BFS 1 is 9.77121e+08
+Validating BFS 1
+Validate time for BFS 1 is 21.423941
+Running BFS 2
+Time for BFS 2 is 4.523906
+TEPS for BFS 2 is 9.49383e+08
+Validating BFS 2
+Validate time for BFS 2 is 21.465117
+Running BFS 3
+Time for BFS 3 is 4.322967
+TEPS for BFS 3 is 9.93512e+08
+Validating BFS 3
+Validate time for BFS 3 is 21.456094
+Running BFS 4
+Time for BFS 4 is 4.294191
+TEPS for BFS 4 is 1.00017e+09
+Validating BFS 4
+Validate time for BFS 4 is 21.462591
+Running BFS 5
+Time for BFS 5 is 4.280513
+TEPS for BFS 5 is 1.00337e+09
+Validating BFS 5
+Validate time for BFS 5 is 21.391781
+Running BFS 6
+Time for BFS 6 is 4.372592
+TEPS for BFS 6 is 9.82237e+08
+Validating BFS 6
+Validate time for BFS 6 is 21.476225
+Running BFS 7
+Time for BFS 7 is 4.468946
+TEPS for BFS 7 is 9.61059e+08
+Validating BFS 7
+Validate time for BFS 7 is 21.488726
+Running BFS 8
+Time for BFS 8 is 4.374211
+TEPS for BFS 8 is 9.81873e+08
+Validating BFS 8
+Validate time for BFS 8 is 21.480797
+Running BFS 9
+Time for BFS 9 is 4.400043
+TEPS for BFS 9 is 9.76109e+08
+Validating BFS 9
+Validate time for BFS 9 is 21.451928
+Running BFS 10
+Time for BFS 10 is 4.330889
+TEPS for BFS 10 is 9.91695e+08
+Validating BFS 10
+Validate time for BFS 10 is 21.428554
+Running BFS 11
+Time for BFS 11 is 4.387103
+TEPS for BFS 11 is 9.78988e+08
+Validating BFS 11
+Validate time for BFS 11 is 21.466677
+Running BFS 12
+Time for BFS 12 is 4.565616
+TEPS for BFS 12 is 9.4071e+08
+Validating BFS 12
 ```
