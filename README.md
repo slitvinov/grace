@@ -24,8 +24,6 @@ Host grace2
      ProxyJump rc
 ```
 
-Use `ssh-copy-id -i ~/.ssh/id_rsa.pub grace` for password-less login.
-
 # Benchmarks
 
 <https://nvidia.github.io/grace-cpu-benchmarking-guide/foundations/FMA/index.html>
