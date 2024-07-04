@@ -26,8 +26,7 @@ Host grace2
 
 # Build chain from the source
 
-Recommended in
-[grace-performance-tuning-guide](https://docs.nvidia.com/grace-performance-tuning-guide.pdf)
+[GCC](https://docs.nvidia.com/grace-performance-tuning-guide.pdf)
 
 ```
 wget -q https://ftp.gnu.org/gnu/gcc/gcc-12.3.0/gcc-12.3.0.tar.gz
@@ -36,6 +35,17 @@ cd gcc-12.3.0
 ./contrib/download_prerequisites
 ./configure --disable-multilib --enable-shared --enable-languages=c,c++,fortran --prefix=$HOME/.grace
 make -j `nproc`
+make install
+```
+
+[OpenMPI](https://nvidia.github.io/grace-cpu-benchmarking-guide/benchmarks/Graph500/index.html)
+
+```
+wget -q https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-5.0.1.tar.gz
+tar -xzf openmpi-5.0.1.tar.gz
+cd openmpi-5.0.1
+PATH=$HOME/.grace/bin:$PATH ./configure --prefix=$HOME/.grace
+make
 make install
 ```
 
