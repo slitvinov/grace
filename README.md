@@ -44,3 +44,19 @@ GOps/sec;53.2213
 $ perf
 -bash: perf: command not found
 ```
+
+```
+$ wget https://www.cs.virginia.edu/stream/FTP/Code/stream.c
+$ STREAM_ARRAY_SIZE="($(nproc)/72*120000000)"
+$ gcc -Ofast -march=native -fopenmp -mcmodel=large -fno-PIC \
+  	-DSTREAM_ARRAY_SIZE=${STREAM_ARRAY_SIZE} -DNTIMES=200 \
+  	-o stream_openmp.exe stream.c
+$ STREAM_ARRAY_SIZE="($(nproc)/72*120000000)"
+$ OMP_NUM_THREADS=72 OMP_PROC_BIND=spread ./stream_openmp.exe
+...
+Function    Best Rate MB/s  Avg time     Min time     Max time
+Copy:          355230.0     0.005579     0.005405     0.010008
+Scale:         355622.2     0.005568     0.005399     0.006713
+Add:           348376.2     0.008766     0.008267     0.009930
+Triad:         349303.0     0.008727     0.008245     0.009891
+```
