@@ -17,6 +17,11 @@ Host grace
      HostName holygpu7c1101
      User slitvinov
      ProxyJump rc
+
+Host grace
+     HostName holygpu7c1103
+     User slitvinov
+     ProxyJump rc
 ```
 
 # Benchmarks
@@ -49,8 +54,8 @@ $ perf
 $ wget https://www.cs.virginia.edu/stream/FTP/Code/stream.c
 $ STREAM_ARRAY_SIZE="($(nproc)/72*120000000)"
 $ gcc -Ofast -march=native -fopenmp -mcmodel=large -fno-PIC \
-  	-DSTREAM_ARRAY_SIZE=${STREAM_ARRAY_SIZE} -DNTIMES=200 \
-  	-o stream_openmp.exe stream.c
+	-DSTREAM_ARRAY_SIZE=${STREAM_ARRAY_SIZE} -DNTIMES=200 \
+	-o stream_openmp.exe stream.c
 $ STREAM_ARRAY_SIZE="($(nproc)/72*120000000)"
 $ OMP_NUM_THREADS=72 OMP_PROC_BIND=spread ./stream_openmp.exe
 ...
@@ -66,8 +71,8 @@ git clone git@github.com:slitvinov/taubench.git
 cd taubench
 module purge
 module load mpi/openmpi-aarch64
-make
-$ mpiexec ./taubench -n 100000 -s 10
+make -B 'CFLAGS = -Ofast -march=native'
+$ mpiexec ./taubench -n 100000 -s 100
 --------------------------------------------------------------------------
 WARNING: No preset parameters were found for the device that Open MPI
 detected:
@@ -93,35 +98,37 @@ WARNING: There was an error initializing an OpenFabrics device.
 --------------------------------------------------------------------------
 This is TauBench.
 Evaluating kernels - please be patient.
-..........
+..........[holygpu7c1101:317398] 71 more processes have sent help message help-mpi-btl-openib.txt / no device params found
+[holygpu7c1101:317398] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[holygpu7c1101:317398] 71 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+..........................................................................................
 
-        - kernel_1_0 :      0.370 secs -   3806.717 mflops
-        - kernel_1_1 :      0.151 secs -   1445.559 mflops
-        - kernel_2_1 :      0.245 secs -   4050.949 mflops
-        - kernel_2_2 :      0.156 secs -   7812.405 mflops
-        - kernel_2_3 :      0.060 secs -   4078.639 mflops
-        - kernel_2_4 :      0.106 secs -   5220.619 mflops
-        - kernel_3_0 :      0.305 secs -   8988.289 mflops
+	- kernel_1_0 :      3.711 secs -   3791.374 mflops
+	- kernel_1_1 :      1.516 secs -   1438.184 mflops
+	- kernel_2_1 :      2.849 secs -   3485.703 mflops
+	- kernel_2_2 :      1.490 secs -   8190.321 mflops
+	- kernel_2_3 :      0.607 secs -   4056.084 mflops
+	- kernel_2_4 :      1.088 secs -   5094.267 mflops
+	- kernel_3_0 :      2.453 secs -  11163.098 mflops
 
-               total :      1.359 secs - 335445.126 mflops
+	       total :     13.325 secs - 342060.224 mflops
 
 points     :     100000
-steps      :         10
+steps      :        100
 procs      :         72
 
-comp       :      1.324 secs
-comm       :      0.035 secs
-comm ratio :      0.026
-
-[holygpu7c1101:315441] 71 more processes have sent help message help-mpi-btl-openib.txt / no device params found
-[holygpu7c1101:315441] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-[holygpu7c1101:315441] 71 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+comp       :     13.054 secs
+comm       :      0.271 secs
+comm ratio :      0.021
 ```
 
+
 ```
+git clone https://github.com/graph500/graph500.git
+cd graph500/src
+sed -i '/^CFLAGS/s/$/ -DPROCS_PER_NODE_NOT_POWER_OF_TWO -fcommon/' Makefile
 module purge
-module load mpi/mpich-aarch64
-make clean
+module load mpi/openmpi-aarch64
 make
+(unset SKIP_BFS && SKIP_VALIDATION=1 && mpiexec --map-by core graph500_reference_bfs 28 16 )
 ```
-
