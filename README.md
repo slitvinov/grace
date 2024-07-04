@@ -118,7 +118,7 @@ MAKEFLAGS=-j`nproc` make install
 wget -q https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-5.0.1.tar.gz
 tar -xzf openmpi-5.0.1.tar.gz
 cd openmpi-5.0.1
-PATH=$HOME/.grace/bin:$PATH ./configure --prefix=$HOME/.grace
+PATH=$HOME/.grace/bin:$PATH ./configure --prefix=$HOME/.grace --without-libevent
 MAKEFLAGS=-j`nproc` make install
 ```
 
