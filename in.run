@@ -1,0 +1,21 @@
+variable        number_density equal 10
+processors      * * * grid twolevel ${tasks_per_node} * * *
+region region   block 0 ${Lx} 0 ${Ly} 0 ${Lz} units box
+create_box 1    region
+
+variable        Np equal ${number_density}*${Lx}*${Ly}*${Lz}
+create_atoms    1 random ${Np} 123456 region
+mass            1 1
+
+neighbor        0.0 bin
+neigh_modify    delay 0 every 1 check no binsize 1
+comm_modify     vel yes
+
+pair_style	dpd 0.5 1 928948
+pair_coeff	1 1    4 30 1
+fix		nve  all  nve
+timestep        0.001
+timer           ${timer}
+thermo          10
+thermo_modify   flush yes
+run             100

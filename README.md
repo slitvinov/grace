@@ -109,7 +109,7 @@ tar -xzf gcc-14.1.0.tar.gz
 cd gcc-14.1.0
 ./contrib/download_prerequisites
 ./configure --enable-silent-rules --disable-multilib --with-static-standard-libraries --enable-languages=c,c++,fortran --prefix=$HOME/.grace
-MAKEFLAGS=-j`nproc` make V=0
+MAKEFLAGS=-j`nproc --all` make V=0
 make install
 ```
 
@@ -119,7 +119,7 @@ wget -q https://ftp.gnu.org/gnu/binutils/binutils-2.42.tar.gz
 tar zxf binutils-2.42.tar.gz
 cd binutils-2.42
 ./configure --enable-silent-rules --prefix=$HOME/.grace
-MAKEFLAGS=-j`nproc` make V=0
+MAKEFLAGS=-j`nproc --all` make V=0
 make install
 ```
 
@@ -132,7 +132,7 @@ wget -q https://github.com/libevent/libevent/releases/download/release-2.1.12-st
 tar -xzf libevent-2.1.12-stable.tar.gz
 cd libevent-2.1.12-stable
 PATH=$HOME/.grace/bin:$PATH ./configure --enable-silent-rules --prefix=$HOME/.grace
-MAKEFLAGS=-j`nproc` make V=0
+MAKEFLAGS=-j`nproc --all` make V=0
 make install
 ```
 
@@ -142,7 +142,7 @@ wget -q https://github.com/openpmix/prrte/releases/download/v3.0.5/prrte-3.0.5.t
 tar zxf prrte-3.0.5.tar.gz
 cd prrte-3.0.5
 PKG_CONFIG_PATH=$HOME/.grace/lib/pkgconfig:$PKG_CONFIG_PATH PATH=$HOME/.grace/bin:$PATH ./configure --prefix=$HOME/.grace --enable-silent-rules
-MAKEFLAGS=-j`nproc` make
+MAKEFLAGS=-j`nproc --all` make
 make install
 ```
 
@@ -151,7 +151,7 @@ wget -q https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-5.0.1.tar.gz
 tar -xzf openmpi-5.0.1.tar.gz
 cd openmpi-5.0.1
 PKG_CONFIG_PATH=$HOME/.grace/lib/pkgconfig:$PKG_CONFIG_PATH PATH=$HOME/.grace/bin:$PATH ./configure --prefix=$HOME/.grace --enable-silent-rules
-MAKEFLAGS=-j`nproc` make V=0
+MAKEFLAGS=-j`nproc --all` make V=0
 make install
 ```
 
@@ -163,7 +163,7 @@ make install
 ```
 git clone https://github.com/NVIDIA/arm-kernels.git
 cd arm-kernels
-PATH=$HOME/.grace/bin:$PATH MAKEFLAGS=-j`nproc` make 'CXXFLAGS = -Ofast -mcpu=native -Wl,-R$(HOME)/.grace/lib64'
+PATH=$HOME/.grace/bin:$PATH MAKEFLAGS=-j`nproc --all` make 'CXXFLAGS = -Ofast -mcpu=native -Wl,-R$(HOME)/.grace/lib64'
 ./arithmetic/fp64_sve_pred_fmla.x
 4( 32(SVE_FMLA_64b) );
 Iterations;100000000
@@ -182,7 +182,7 @@ $ perf
 
 ```
 $ wget https://www.cs.virginia.edu/stream/FTP/Code/stream.c
-$ STREAM_ARRAY_SIZE="($(nproc)/72*120000000)"
+$ STREAM_ARRAY_SIZE="($(nproc --all)/72*120000000)"
 $ PATH=$HOME/.grace/bin:$PATH gcc -Ofast -march=native -fopenmp -mcmodel=large -fno-PIC \
 	-DSTREAM_ARRAY_SIZE=${STREAM_ARRAY_SIZE} -DNTIMES=200 \
 	-o stream_openmp.exe stream.c
@@ -466,16 +466,16 @@ cd aphros/deploy
 mkdir build
 cd build
 PATH=$HOME/.grace/bin:$PATH cmake ..
-PATH=$HOME/.grace/bin:$PATH MAKEFLAGS=-j`nproc` make
-PATH=$HOME/.grace/bin:$PATH MAKEFLAGS=-j`nproc` make install
+cmake --build . --parallel `nproc -all` -v
+cmake --install .
 cd ../../src
 mkdir build
 cd build
-cmake .. -DUSE_HYPRE=0 -DFIND_HDF=0 -DUSE_TESTS=0 -DUSE_BACKEND_CUBISM=0 -DUSE_BACKEND_LOCAL=1 -DUSE_BACKEND_NATIVE=1 -DUSE_HDF=0 -DUSE_AVX=0 -DUSE_OPENMP=0 -DMPI_CXX_COMPILER=$HOME/.grace/bin/mpicxx -DMPI_C_COMPILER=$HOME/.grace/bin/mpicc
-make -j 72 'VERBOSE = 1'
-make install
+cmake .. -DUSE_HYPRE=0 -DFIND_HDF=0 -DUSE_TESTS=0 -DUSE_BACKEND_CUBISM=0 -DUSE_BACKEND_LOCAL=1 -DUSE_BACKEND_NATIVE=1 -DUSE_HDF=0 -DUSE_AVX=0 -DUSE_OPENMP=0 -DMPI_CXX_COMPILER=$HOME/.grace/bin/mpicxx -DMPI_C_COMPILER=$HOME/.grace/bin/mpicc -DCMAKE_CXX_FLAGS='-Ofast -mcpu=native'  -DCMAKE_C_FLAGS='-Ofast -mcpu=native'
+cmake --build . --parallel `nproc -all` --verbose
+cmake --install .
 cd ../../examples/202_coalescence
-APHROS_MPIRUN='~/.grace/bin/mpiexec' make run
+PATH=$HOME/.grace/bin:$PATH LD_LIBRARY_PATH=$HOME/.grace/lib:$HOME/.grace/lib64:$LD_LIBRARY_PATH make run
 STEP=0 t=0.00000000 dt=0.00000100 wt=0.96850208
 .....iter=1, diff=0.0000000000000000e+00
 .....adv: t=0.00000100 dt=0.00000100
@@ -498,4 +498,101 @@ STEP=4 t=0.00939784 dt=0.00313228 wt=30.20132483
 STEP=5 t=0.01253013 dt=0.00313228 wt=38.86789264
 .....iter=1, diff=3.8778945340578663e+00
 .....adv: t=0.01566241 dt=0.00313228
+```
+
+[lammps](https://github.com/lammps/lammps)
+```
+git clone --depth 1 https://github.com/lammps/lammps
+cd lammps/src
+make yes-DPD-BASIC
+PATH=$HOME/.grace/bin:$PATH make mpi -j `nproc --all` 'LMP_INC = -DLAMMPS_BIGBIG' 'CCFLAGS = -Ofast -mcpu=native'
+cp lmp_mpi ~/.grace/bin/
+$ cat in.run
+variable        number_density equal 10
+processors      * * * grid twolevel ${tasks_per_node} * * *
+region region   block 0 ${Lx} 0 ${Ly} 0 ${Lz} units box
+create_box 1    region
+
+variable        Np equal ${number_density}*${Lx}*${Ly}*${Lz}
+create_atoms    1 random ${Np} 123456 region
+mass            1 1
+
+neighbor        0.0 bin
+neigh_modify    delay 0 every 1 check no binsize 1
+comm_modify     vel yes
+
+pair_style	dpd 0.5 1 928948
+pair_coeff	1 1    4 30 1
+fix		nve  all  nve
+timestep        0.001
+timer           ${timer}
+thermo          10
+thermo_modify   flush yes
+run             100
+PATH=$HOME/.grace/bin:$PATH LD_LIBRARY_PATH=$HOME/.grace/lib:$HOME/.grace/lib64:$LD_LIBRARY_PATH mpiexec -- lmp_mpi -in in.run -var tasks_per_node `nproc --all` -var Lx 166 -var Ly 166 -var Lz 290 -var timer 'full' -log run.log
+LAMMPS (27 Jun 2024)
+Created orthogonal box = (0 0 0) to (166 166 290)
+  3 by 4 by 6 MPI processor grid
+  3 by 4 by 6 core grid within node
+Created 79912400 atoms
+  using lattice units in orthogonal box = (0 0 0) to (166 166 290)
+  create_atoms CPU = 1.611 seconds
+New timer settings: style=full  mode=nosync  timeout=off
+Generated 0 of 0 mixed pair_coeff terms from geometric mixing rule
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = no
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 1
+  ghost atom cutoff = 1
+  binsize = 1, bins = 166 166 290
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair dpd, perpetual
+      attributes: half, newton on
+      pair build: half/bin/atomonly/newton
+      stencil: half/bin/3d
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : lj
+  Current step  : 0
+  Time step     : 0.001
+Per MPI rank memory allocation (min/avg/max) = 276 | 276.5 | 277.2 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   0              4.1760963      0              4.1760963      41.220053    
+        10   0.25060498     4.1734303      0              4.5493377      41.262391    
+        20   0.35628255     4.1670473      0              4.7014711      40.70425     
+        30   0.40822428     4.1583481      0              4.7706845      40.265617    
+        40   0.43791491     4.148107       0              4.8049793      39.74277     
+        50   0.45690198     4.1368284      0              4.8221814      39.379216    
+        60   0.46967931     4.1248675      0              4.8293865      39.28291     
+        70   0.47888779     4.1124709      0              4.8308026      39.245741    
+        80   0.48582839     4.0998128      0              4.8285554      39.112367    
+        90   0.49111743     4.087013       0              4.8236892      39.209795    
+       100   0.49536566     4.0741807      0              4.8172292      39.194191    
+Loop time of 154.212 on 72 procs for 100 steps with 79912400 atoms
+
+Performance: 56.027 tau/day, 0.648 timesteps/s, 51.820 Matom-step/s
+99.7% CPU use with 72 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg|  %CPU | %total
+-----------------------------------------------------------------------
+Pair    | 62.578     | 63.469     | 65.311     |   7.6 | 100.0 | 41.16
+Neigh   | 69.892     | 70.989     | 72.966     |   6.7 | 100.0 | 46.03
+Comm    | 9.297      | 13.65      | 18.385     |  50.2 |  96.7 |  8.85
+Output  | 0.11503    | 0.17717    | 0.46183    |  30.2 | 100.0 |  0.11
+Modify  | 1.8642     | 5.1576     | 5.9345     |  64.2 |  99.8 |  3.34
+Other   |            | 0.7694     |            |       |       |  0.50
+
+Nlocal:    1.10989e+06 ave 1.11201e+06 max 1.10757e+06 min
+Histogram: 3 0 8 10 14 9 12 8 7 1
+Nghost:         145451 ave      146492 max      144703 min
+Histogram: 5 7 5 12 18 12 10 2 0 1
+Neighs:    2.32513e+07 ave  2.3398e+07 max  2.3088e+07 min
+Histogram: 3 2 9 6 13 14 6 9 5 5
+
+Total # of neighbors = 1.6740963e+09
+Ave neighs/atom = 20.949143
+Neighbor list builds = 100
+Dangerous builds not checked
+Total wall time: 0:02:38
 ```
