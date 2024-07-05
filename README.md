@@ -473,4 +473,29 @@ mkdir build
 cd build
 cmake .. -DUSE_HYPRE=0 -DFIND_HDF=0 -DUSE_TESTS=0 -DUSE_BACKEND_CUBISM=0 -DUSE_BACKEND_LOCAL=1 -DUSE_BACKEND_NATIVE=1 -DUSE_HDF=0 -DUSE_AVX=0 -DUSE_OPENMP=0 -DMPI_CXX_COMPILER=$HOME/.grace/bin/mpicxx -DMPI_C_COMPILER=$HOME/.grace/bin/mpicc
 make -j 72 'VERBOSE = 1'
+make install
+cd ../../examples/202_coalescence
+APHROS_MPIRUN='~/.grace/bin/mpiexec' make run
+STEP=0 t=0.00000000 dt=0.00000100 wt=0.96850208
+.....iter=1, diff=0.0000000000000000e+00
+.....adv: t=0.00000100 dt=0.00000100
+Dump n=0 t=0.00000100 target=0.00000000
+dump t=0.00000100 to sm_0000.vtk
+STEP=1 t=0.00000100 dt=0.00313228 wt=4.54155872
+.....iter=1, diff=2.2754853953374785e+00
+.....adv: t=0.00313328 dt=0.00313228
+STEP=2 t=0.00313328 dt=0.00313228 wt=12.86724547
+.....iter=1, diff=1.6319286789951573e+00
+.....adv: t=0.00626556 dt=0.00313228
+STEP=3 t=0.00626556 dt=0.00313228 wt=21.50631258
+.....iter=1, diff=2.2872029003816743e+00
+.....adv: t=0.00939784 dt=0.00313228
+Dump n=1 t=0.00939784 target=0.01000000
+dump t=0.00939784 to sm_0001.vtk
+STEP=4 t=0.00939784 dt=0.00313228 wt=30.20132483
+.....iter=1, diff=2.9735554721233570e+00
+.....adv: t=0.01253013 dt=0.00313228
+STEP=5 t=0.01253013 dt=0.00313228 wt=38.86789264
+.....iter=1, diff=3.8778945340578663e+00
+.....adv: t=0.01566241 dt=0.00313228
 ```
