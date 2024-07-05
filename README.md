@@ -108,8 +108,19 @@ wget -q https://ftp.gnu.org/gnu/gcc/gcc-14.1.0/gcc-14.1.0.tar.gz
 tar -xzf gcc-14.1.0.tar.gz
 cd gcc-14.1.0
 ./contrib/download_prerequisites
-./configure --disable-multilib --enable-shared --enable-languages=c,c++,fortran --prefix=$HOME/.grace
-MAKEFLAGS=-j`nproc` make install
+./configure --enable-silent-rules --disable-multilib --with-static-standard-libraries --enable-languages=c,c++,fortran --prefix=$HOME/.grace
+MAKEFLAGS=-j`nproc` make V=0
+make install
+```
+
+Needs [binutils](https://www.gnu.org/software/binutils)
+```
+wget -q https://ftp.gnu.org/gnu/binutils/binutils-2.42.tar.gz
+tar zxf binutils-2.42.tar.gz
+cd binutils-2.42
+./configure --enable-silent-rules --prefix=$HOME/.grace
+MAKEFLAGS=-j`nproc` make V=0
+make install
 ```
 
 [OpenMPI](https://nvidia.github.io/grace-cpu-benchmarking-guide/benchmarks/Graph500/index.html), needs [libevent](https://libevent.org)
@@ -118,16 +129,18 @@ MAKEFLAGS=-j`nproc` make install
 wget -q https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz
 tar -xzf libevent-2.1.12-stable.tar.gz
 cd libevent-2.1.12-stable
-./configure --prefix=$HOME/.grace
-MAKEFLAGS=-j`nproc` make install
+PATH=$HOME/.grace/bin:$PATH ./configure --enable-silent-rules --prefix=$HOME/.grace
+MAKEFLAGS=-j`nproc` make V=0
+make install
 ```
 
 ```
 wget -q https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-5.0.1.tar.gz
 tar -xzf openmpi-5.0.1.tar.gz
 cd openmpi-5.0.1
-PKG_CONFIG_PATH=$HOME/.grace/lib/pkgconfig:$PKG_CONFIG_PATH PATH=$HOME/.grace/bin:$PATH ./configure --prefix=$HOME/.grace
-MAKEFLAGS=-j`nproc` make install
+PKG_CONFIG_PATH=$HOME/.grace/lib/pkgconfig:$PKG_CONFIG_PATH PATH=$HOME/.grace/bin:$PATH ./configure --prefix=$HOME/.grace --enable-silent-rules
+MAKEFLAGS=-j`nproc` make V=0
+make install
 ```
 
 # Benchmarks
@@ -137,7 +150,7 @@ MAKEFLAGS=-j`nproc` make install
 ```
 git clone https://github.com/NVIDIA/arm-kernels.git
 cd arm-kernels
-make
+PATH=$HOME/.grace/bin:$PATH MAKEFLAGS=-j`nproc` make
 ./arithmetic/fp64_sve_pred_fmla.x
 4( 32(SVE_FMLA_64b) );
 Iterations;100000000
