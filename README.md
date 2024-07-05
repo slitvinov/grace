@@ -456,3 +456,21 @@ bfs  max_validate:              -1
 bfs  mean_validate:             -1
 bfs  stddev_validate:           0
 ```
+
+[aphros](https://github.com/cselab/aphros)
+```
+git clone https://github.com/cselab/aphros.git
+cd aphros/deploy
+./install_setenv $HOME/.local/bin
+. ap.setenv
+mkdir build
+cd build
+PATH=$HOME/.grace/bin:$PATH cmake ..
+PATH=$HOME/.grace/bin:$PATH MAKEFLAGS=-j`nproc` make
+PATH=$HOME/.grace/bin:$PATH MAKEFLAGS=-j`nproc` make install
+cd ../../src
+mkdir build
+cd build
+cmake .. -DUSE_HYPRE=0 -DFIND_HDF=0 -DUSE_TESTS=0 -DUSE_BACKEND_CUBISM=0 -DUSE_BACKEND_LOCAL=1 -DUSE_BACKEND_NATIVE=1 -DUSE_HDF=0 -DUSE_AVX=0 -DUSE_OPENMP=0 -DMPI_CXX_COMPILER=$HOME/.grace/bin/mpicxx -DMPI_C_COMPILER=$HOME/.grace/bin/mpicc
+make -j 72 'VERBOSE = 1'
+```
