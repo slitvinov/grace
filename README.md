@@ -756,3 +756,44 @@ Result = PASS
 
 NOTE: The CUDA Samples are not meant for performance measurements. Results may vary when GPU Boost is enabled.
 ```
+
+Builds libffi
+```
+https://github.com/libffi/libffi/releases/download/v3.4.5/libffi-3.4.5.tar.gz
+tar zxf libffi-3.4.5.tar.gz
+cd libffi-3.4.5
+PATH=$HOME/.grace/bin:$PATH ./configure --prefix=$HOME/.grace
+PATH=$HOME/.grace/bin:$PATH make -j `nproc --all`
+make install
+```
+
+Build python
+```
+wget -q https://www.python.org/ftp/python/3.11.9/Python-3.11.9.tgz
+tar zxf Python-3.11.9.tgz
+cd Python-3.11.9
+module purge
+PATH=$HOME/.grace/bin:$PATH ./configure --enable-optimizations --prefix=$HOME/.grace
+PATH=$HOME/.grace/bin:$PATH make -j `nproc --all`
+make install
+```
+
+Install jax
+```
+$HOME/.grace/bin/python3 -m pip install -U 'jax[cuda12]'
+$HOME/.grace/bin/python3 -c 'import jax; print(jax.default_backend())'
+gpu
+```
+
+Install pytorch
+```
+$HOME/.grace/bin/python3 -m pip install --pre torch --index-url https://download.pytorch.org/whl/nightly
+$HOME/.grace/bin/python3 -c 'import torch; print(torch.cuda.is_available())'
+True
+```
+
+Install tensorflow
+```
+$HOME/.grace/bin/python3 -m pip install tf-nightly
+$HOME/.grace/bin/python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
+```
