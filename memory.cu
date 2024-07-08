@@ -42,17 +42,17 @@ int main(int argc, char **argv) {
     exit(1);
   }
   fprintf(stderr, "size: %.2fGB\n",
-	  (double)size / (double)(1 << (10 + 10 + 10)));
+          (double)size / (double)(1 << (10 + 10 + 10)));
   if ((res = cudaMalloc(&device, size)) != cudaSuccess) {
     fprintf(stderr, "memory: cudaMalloc failed: '%s'\n",
-	    cudaGetErrorString(res));
+            cudaGetErrorString(res));
     exit(1);
   }
   fprintf(stderr, "memory: start cudaMemcpy\n");
   if ((res = cudaMemcpy(device, host, size, cudaMemcpyHostToDevice)) !=
       cudaSuccess) {
     fprintf(stderr, "memory: cudaMalloc failed: '%s'\n",
-	    cudaGetErrorString(res));
+            cudaGetErrorString(res));
     exit(1);
   }
   fprintf(stderr, "memory: end cudaMemcpy\n");
