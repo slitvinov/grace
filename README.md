@@ -617,6 +617,16 @@ Dangerous builds not checked
 Total wall time: 0:02:38
 ```
 
+```
+wget -q https://github.com/HDFGroup/hdf5/releases/download/hdf5_1.14.4.3/hdf5-1.14.4-3.tar.gz
+tar zxf hdf5-1.14.4-3.tar.gz
+cd hdf5-1.14.4-3
+module load $HOME/.grace/hpc_sdk/modulefiles/nvhpc/24.5
+./configure --enable-parallel --prefix=$HOME/.grace --enable-fortran CC=mpicc FC=mpif90
+make -j`nproc -all`
+make install -j`nproc -all`
+```
+
 Install [NVIDIA HPC SDK](https://developer.nvidia.com/hpc-sdk-downloads)
 
 ```
