@@ -48,14 +48,14 @@ int main(int argc, char **argv) {
 	    cudaGetErrorString(res));
     exit(1);
   }
-  fprintf(stderr, "memory: start cudaMemcpy");
+  fprintf(stderr, "memory: start cudaMemcpy\n");
   if ((res = cudaMemcpy(device, host, size, cudaMemcpyHostToDevice)) !=
       cudaSuccess) {
     fprintf(stderr, "memory: cudaMalloc failed: '%s'\n",
 	    cudaGetErrorString(res));
     exit(1);
   }
-  fprintf(stderr, "memory: end cudaMemcpy");
+  fprintf(stderr, "memory: end cudaMemcpy\n");
   if (fclose(file) != 0) {
     fprintf(stderr, "memory: fclose failed\n");
     exit(1);
