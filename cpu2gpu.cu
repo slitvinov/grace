@@ -19,6 +19,11 @@ int main(int argc, char **argv) {
             cudaGetErrorString(res));
     exit(1);
   }
+  if ((res = cudaMalloc(&device, size)) != cudaSuccess) {
+    fprintf(stderr, "memory: cudaMalloc failed: '%s'\n",
+            cudaGetErrorString(res));
+    exit(1);
+  }
   fprintf(stderr, "memory: start cudaMemcpy\n");
   if ((res = cudaMemcpy(device, host, size, cudaMemcpyHostToDevice)) !=
       cudaSuccess) {
