@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
   }
   fprintf(stderr, "size: %.2fGB\n",
           (double)size / (double)(1 << (10 + 10 + 10)));
-  if ((res = cudaMalloc(&device, size)) != cudaSuccess) {
+  if ((res = cudaMallocHost(&device, size)) != cudaSuccess) {
     fprintf(stderr, "memory: cudaMalloc failed: '%s'\n",
             cudaGetErrorString(res));
     exit(1);
@@ -27,6 +27,6 @@ int main(int argc, char **argv) {
     exit(1);
   }
   fprintf(stderr, "memory: end cudaMemcpy\n");
-  free(host);
+  cudaFreeHost(host);
   cudaFree(device);
 }
