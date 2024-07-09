@@ -880,6 +880,22 @@ $HOME/.grace/bin/python3 -m pip install tf-nightly
 $HOME/.grace/bin/python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
 ```
 
+MPI
+```
+module purge
+module load /scratch/slitvinov/.grace/modulefiles/nvhpc/24.5
+cat mpi_init.c
+#include <mpi.h>
+#include <stdio.h>
+int main(int argc, char **argv) {
+  MPI_Init(&argc, &argv);
+  MPI_Finalize();
+}
+mpicc mpi_init.c
+mpiexec ./a.out
+```
+
+
 # Advanced SIMD (Neon)
 
 ```
