@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
     exit(1);
   }
   host = (float *)mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-  if (host == (void *)-1) {
+  if (host == MAP_FAILED) {
     fprintf(stderr, "disc2gpu: error: mmap failed\n");
     fprintf(stderr, "disc2gpu: error: errno = %d\n", errno);
     exit(1);
@@ -58,6 +58,10 @@ int main(int argc, char **argv) {
     exit(1);
   }
   fprintf(stderr, "disc2gpu: end cudaMemcpy\n");
+  if (munmap(host, size) != 0) {
+    fprintf(stderr, "disc2gpu:  error: munmap() failed\n");
+    exit(1);
+  }
   if (fclose(file) != 0) {
     fprintf(stderr, "disc2gpu:  error: fclose() failed\n");
     exit(1);
