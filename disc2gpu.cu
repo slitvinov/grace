@@ -13,52 +13,52 @@ int main(int argc, char **argv) {
 
   long size = sizeof(float) << atol(argv[1]);
   if ((file = fopen("file.raw", "w")) == NULL) {
-    fprintf(stderr, "memory: fail to create file\n");
+    fprintf(stderr, "disc2gpu: fail to create file\n");
     exit(1);
   }
   if (fseek(file, size - 1, SEEK_SET) == -1) {
-    fprintf(stderr, "memory: fseek failed\n");
+    fprintf(stderr, "disc2gpu: fseek failed\n");
     exit(1);
   }
   if (fwrite(&c, 1, sizeof(c), file) != 1) {
-    fprintf(stderr, "memory: fwrite failed\n");
+    fprintf(stderr, "disc2gpu: fwrite failed\n");
     exit(1);
   }
   if (fclose(file) != 0) {
-    fprintf(stderr, "memory: fclose failed\n");
+    fprintf(stderr, "disc2gpu: fclose failed\n");
     exit(1);
   }
   if ((file = fopen("file.raw", "r+")) == NULL) {
-    fprintf(stderr, "memory: fail reopen\n");
+    fprintf(stderr, "disc2gpu: fail reopen\n");
     exit(1);
   }
   if ((fd = fileno(file)) == -1) {
-    fprintf(stderr, "memory: fileno failed\n");
+    fprintf(stderr, "disc2gpu: fileno failed\n");
     exit(1);
   }
   host = (float *)mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
   if (host == (void *)-1) {
-    fprintf(stderr, "memory: mmap failed\n");
-    fprintf(stderr, "memory: errno = %d\n", errno);
+    fprintf(stderr, "disc2gpu: mmap failed\n");
+    fprintf(stderr, "disc2gpu: errno = %d\n", errno);
     exit(1);
   }
   fprintf(stderr, "size: %.2fGB\n",
           (double)size / (double)(1 << (10 + 10 + 10)));
   if ((res = cudaMalloc(&device, size)) != cudaSuccess) {
-    fprintf(stderr, "memory: cudaMalloc failed: '%s'\n",
+    fprintf(stderr, "disc2gpu: cudaMalloc failed: '%s'\n",
             cudaGetErrorString(res));
     exit(1);
   }
-  fprintf(stderr, "memory: start cudaMemcpy\n");
+  fprintf(stderr, "disc2gpu: start cudaMemcpy\n");
   if ((res = cudaMemcpy(device, host, size, cudaMemcpyHostToDevice)) !=
       cudaSuccess) {
-    fprintf(stderr, "memory: cudaMalloc failed: '%s'\n",
+    fprintf(stderr, "disc2gpu: cudaMalloc failed: '%s'\n",
             cudaGetErrorString(res));
     exit(1);
   }
-  fprintf(stderr, "memory: end cudaMemcpy\n");
+  fprintf(stderr, "disc2gpu: end cudaMemcpy\n");
   if (fclose(file) != 0) {
-    fprintf(stderr, "memory: fclose failed\n");
+    fprintf(stderr, "disc2gpu: fclose failed\n");
     exit(1);
   }
   cudaFree(device);

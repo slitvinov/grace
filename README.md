@@ -836,7 +836,7 @@ int main(int argc, char **argv) {
 }
 $ module purge
 $ module load $HOME/.grace/hpc_sdk/modulefiles/nvhpc/24.5
-$ nvcc memory.cu -arch=native -Xcompiler -mcpu=native
+$ nvcc disc2gpu.cu -arch=native -Xcompiler -mcpu=native
 $ for i in `seq 25 35`; do ./a.out $i 2>&1 | sh ./ts; echo; done
      0: size: 0.12GB
      3: memory: start cudaMemcpy
