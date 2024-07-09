@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
   fprintf(stderr, "disc2gpu: start cudaMemcpy\n");
   if ((res = cudaMemcpy(device, host, size, cudaMemcpyHostToDevice)) !=
       cudaSuccess) {
-    fprintf(stderr, "disc2gpu: cudaMalloc failed: '%s'\n",
+    fprintf(stderr, "disc2gpu: cudaMemcpy failed: '%s'\n",
             cudaGetErrorString(res));
     exit(1);
   }
