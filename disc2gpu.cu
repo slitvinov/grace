@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
   int fd;
   long size;
 
-  long size = sizeof(float) << atol(argv[1]);
+  size = sizeof(float) << atol(argv[1]);
   if ((file = fopen("file.raw", "w")) == NULL) {
     fprintf(stderr, "disc2gpu: error: fopen() filed\n");
     exit(1);
@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
     fprintf(stderr, "disc2gpu: error:  fseek() failed\n");
     exit(1);
   }
-  if (fputs('\0', file) == EOF) {
+  if (fputc(0, file) == EOF) {
     fprintf(stderr, "disc2gpu: error: fputs() failed\n");
     exit(1);
   }
