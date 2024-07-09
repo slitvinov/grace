@@ -926,7 +926,7 @@ $HOME/.grace/bin/python3 -c "import tensorflow as tf; print(tf.config.list_physi
 # Advanced SIMD (Neon)
 
 ```
-$ cat main.c
+$ cat neon.c
 #include <stdio.h>
 #include "arm_neon.h"
 int main() {
