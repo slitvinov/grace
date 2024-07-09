@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     MPI_Get_library_version(version, &len);
     for (i = 0; i < size; i++) {
       if (i == rank)
-	printf("mpi_helo: %d/%d: %s)\n", rank, size, version);
+	printf("mpi_hello: %d/%d: %s)\n", rank, size, version);
       MPI_Barrier(MPI_COMM_WORLD);
     }
     MPI_Finalize();
