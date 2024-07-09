@@ -4,10 +4,11 @@
 #include <stdlib.h>
 
 int main(int argc, char **argv) {
-  float *host, *device;
   cudaError_t res;
+  float *host, *device;
+  long size;
 
-  long size = sizeof(float) << atol(argv[1]);
+  size = sizeof(float) << atol(argv[1]);
   if ((host = (float *)malloc(size)) == NULL) {
     fprintf(stderr, "cpu2gpu fail to allocate host memory\n");
     exit(1);
