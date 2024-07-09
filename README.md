@@ -632,46 +632,25 @@ Install [NVIDIA HPC SDK](https://developer.nvidia.com/hpc-sdk-downloads)
 ```
 wget -q https://developer.download.nvidia.com/hpc-sdk/24.5/nvhpc_2024_245_Linux_aarch64_cuda_12.4.tar.gz
 tar zxf nvhpc_2024_245_Linux_aarch64_cuda_12.4.tar.gz
-nvhpc_2024_245_Linux_aarch64_cuda_12.4/install
-
-Note: directory /n/home13/slitvinov/.grace/hpc_sdk was created.
-
-Installing NVIDIA HPC SDK version 24.5 into /n/home13/slitvinov/.grace/hpc_sdk
-Making symbolic link in /n/home13/slitvinov/.grace/hpc_sdk/Linux_aarch64
+printf '
+1
+/scratch/slitvinov/.grace
+' | nvhpc_2024_245_Linux_aarch64_cuda_12.4/install
+...
+Installing NVIDIA HPC SDK version 24.5 into /scratch/slitvinov/.grace
+Making symbolic link in /scratch/slitvinov/.grace/Linux_aarch64
 
 generating environment modules for NV HPC SDK 24.5 ... done.
 Installation complete.
-HPC SDK successfully installed into /n/home13/slitvinov/.grace/hpc_sdk
+HPC SDK successfully installed into /scratch/slitvinov/.grace
 
 If you use the Environment Modules package, that is, the module load
 command, the NVIDIA HPC SDK includes a script to set up the
 appropriate module files.
-
-% module load /n/home13/slitvinov/.grace/hpc_sdk/modulefiles/nvhpc/24.5
+...
+% module load /scratch/slitvinov/.grace/modulefiles/nvhpc/24.5
 % module load nvhpc/24.5
-
-Alternatively, the shell environment may be initialized to use the HPC SDK.
-
-In csh, use these commands:
-
-% set path = (/n/home13/slitvinov/.grace/hpc_sdk/Linux_aarch64/24.5/compilers/bin $path)
-% setenv MANPATH /n/home13/slitvinov/.grace/hpc_sdk/Linux_aarch64/24.5/compilers/man:"$MANPATH"
-
-To use MPI, also set:
-
-% set path = (/n/home13/slitvinov/.grace/hpc_sdk/Linux_aarch64/24.5/comm_libs/mpi/bin $path)
-
-In bash, sh, or ksh, use these commands:
-
-$ export PATH=/n/home13/slitvinov/.grace/hpc_sdk/Linux_aarch64/24.5/compilers/bin:$PATH
-$ export MANPATH=/n/home13/slitvinov/.grace/hpc_sdk/Linux_aarch64/24.5/compilers/man:$MANPATH
-
-To use MPI, also set:
-
-$ export PATH=/n/home13/slitvinov/.grace/hpc_sdk/Linux_aarch64/24.5/comm_libs/mpi/bin:$PATH
-
-Please check https://developer.nvidia.com for documentation,
-use of NVIDIA HPC SDK software, and other questions.
+...
 ```
 
 cuda samples
