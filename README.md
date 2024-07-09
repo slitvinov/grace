@@ -119,28 +119,43 @@ REDHAT_SUPPORT_PRODUCT="Red Hat Enterprise Linux"
 REDHAT_SUPPORT_PRODUCT_VERSION="9.3"
 ```
 
-# Build tool-chain from the source
+# Install tools
 
-[GCC](https://docs.nvidia.com/grace-performance-tuning-guide.pdf)
+HDF5
 
 ```
-wget -q https://ftp.gnu.org/gnu/gcc/gcc-14.1.0/gcc-14.1.0.tar.gz
-tar -xzf gcc-14.1.0.tar.gz
-cd gcc-14.1.0
-./contrib/download_prerequisites
-./configure --enable-silent-rules --disable-multilib --with-static-standard-libraries --enable-languages=c,c++,fortran --prefix=$HOME/.grace
-MAKEFLAGS=-j`nproc --all` make V=0
-make install
+wget -q https://github.com/HDFGroup/hdf5/releases/download/hdf5_1.14.4.3/hdf5-1.14.4-3.tar.gz
+tar zxf hdf5-1.14.4-3.tar.gz
+cd hdf5-1.14.4-3
+module load $HOME/.grace/hpc_sdk/modulefiles/nvhpc/24.5
+./configure --enable-parallel --prefix=$HOME/.grace --enable-fortran CC=mpicc FC=mpif90
+make -j`nproc -all`
+make install -j`nproc -all`
 ```
 
-Needs [binutils](https://www.gnu.org/software/binutils)
+Install [NVIDIA HPC SDK](https://developer.nvidia.com/hpc-sdk-downloads)
+
 ```
-wget -q https://ftp.gnu.org/gnu/binutils/binutils-2.42.tar.gz
-tar zxf binutils-2.42.tar.gz
-cd binutils-2.42
-./configure --enable-silent-rules --prefix=$HOME/.grace
-MAKEFLAGS=-j`nproc --all` make V=0
-make install
+wget -q https://developer.download.nvidia.com/hpc-sdk/24.5/nvhpc_2024_245_Linux_aarch64_cuda_12.4.tar.gz
+tar zxf nvhpc_2024_245_Linux_aarch64_cuda_12.4.tar.gz
+printf '
+1
+/scratch/slitvinov/.grace
+' | nvhpc_2024_245_Linux_aarch64_cuda_12.4/install
+...
+Installing NVIDIA HPC SDK version 24.5 into /scratch/slitvinov/.grace
+Making symbolic link in /scratch/slitvinov/.grace/Linux_aarch64
+
+generating environment modules for NV HPC SDK 24.5 ... done.
+Installation complete.
+HPC SDK successfully installed into /scratch/slitvinov/.grace
+
+If you use the Environment Modules package, that is, the module load
+command, the NVIDIA HPC SDK includes a script to set up the
+appropriate module files.
+...
+% module load /scratch/slitvinov/.grace/modulefiles/nvhpc/24.5
+...
 ```
 
 [OpenMPI](https://nvidia.github.io/grace-cpu-benchmarking-guide/benchmarks/Graph500/index.html),
@@ -154,8 +169,6 @@ cd libevent-2.1.12-stable
 PATH=$HOME/.grace/bin:$PATH ./configure --enable-silent-rules --prefix=$HOME/.grace
 MAKEFLAGS=-j`nproc --all` make V=0
 make install
-```
-
 
 ```
 wget -q https://github.com/openpmix/prrte/releases/download/v3.0.5/prrte-3.0.5.tar.gz
@@ -174,7 +187,6 @@ PKG_CONFIG_PATH=$HOME/.grace/lib/pkgconfig:$PKG_CONFIG_PATH PATH=$HOME/.grace/bi
 MAKEFLAGS=-j`nproc --all` make V=0
 make install
 ```
-
 
 # Benchmarks
 
@@ -240,6 +252,7 @@ comm       :      0.281 secs
 comm ratio :      0.021
 ```
 
+[grace500](https://github.com/graph500/graph500)
 
 ```
 git clone https://github.com/graph500/graph500.git
@@ -617,43 +630,8 @@ Dangerous builds not checked
 Total wall time: 0:02:38
 ```
 
-```
-wget -q https://github.com/HDFGroup/hdf5/releases/download/hdf5_1.14.4.3/hdf5-1.14.4-3.tar.gz
-tar zxf hdf5-1.14.4-3.tar.gz
-cd hdf5-1.14.4-3
-module load $HOME/.grace/hpc_sdk/modulefiles/nvhpc/24.5
-./configure --enable-parallel --prefix=$HOME/.grace --enable-fortran CC=mpicc FC=mpif90
-make -j`nproc -all`
-make install -j`nproc -all`
-```
+[cuda samples](https://github.com/NVIDIA/cuda-samples)
 
-Install [NVIDIA HPC SDK](https://developer.nvidia.com/hpc-sdk-downloads)
-
-```
-wget -q https://developer.download.nvidia.com/hpc-sdk/24.5/nvhpc_2024_245_Linux_aarch64_cuda_12.4.tar.gz
-tar zxf nvhpc_2024_245_Linux_aarch64_cuda_12.4.tar.gz
-printf '
-1
-/scratch/slitvinov/.grace
-' | nvhpc_2024_245_Linux_aarch64_cuda_12.4/install
-...
-Installing NVIDIA HPC SDK version 24.5 into /scratch/slitvinov/.grace
-Making symbolic link in /scratch/slitvinov/.grace/Linux_aarch64
-
-generating environment modules for NV HPC SDK 24.5 ... done.
-Installation complete.
-HPC SDK successfully installed into /scratch/slitvinov/.grace
-
-If you use the Environment Modules package, that is, the module load
-command, the NVIDIA HPC SDK includes a script to set up the
-appropriate module files.
-...
-% module load /scratch/slitvinov/.grace/modulefiles/nvhpc/24.5
-% module load nvhpc/24.5
-...
-```
-
-cuda samples
 ```
 $ git clone https://github.com/NVIDIA/cuda-samples.git
 $ cd cuda-samples/Samples/0_Introduction/vectorAdd
