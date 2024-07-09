@@ -42,6 +42,7 @@ int main(int argc, char **argv) {
     fprintf(stderr, "disc2gpu: errno = %d\n", errno);
     exit(1);
   }
+  memset(host, 0, size);
   fprintf(stderr, "size: %.2fGB\n",
           (double)size / (double)(1 << (10 + 10 + 10)));
   if ((res = cudaMalloc(&device, size)) != cudaSuccess) {
