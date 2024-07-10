@@ -15,6 +15,8 @@
 #include <cassert>
 #include <iostream>
 #include <memory>
+#include <helper_cuda.h>
+#include <helper_functions.h>
 
 static const char *sSDKsample = "CUDA Bandwidth Test";
 
