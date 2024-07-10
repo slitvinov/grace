@@ -636,7 +636,7 @@ Total wall time: 0:02:38
 $ git clone https://github.com/NVIDIA/cuda-samples.git
 $ cd cuda-samples/Samples/0_Introduction/vectorAdd
 $ module purge
-$ module load $HOME/.grace/hpc_sdk/modulefiles/nvhpc/24.5
+$ module load /scratch/slitvinov/.grace/modulefiles/nvhpc/24.5
 $ nvcc -I../../../Common -arch=native vectorAdd.cu
 $ ./a.out
 [Vector addition of 50000 elements]
@@ -694,9 +694,7 @@ Device 0: "NVIDIA GH200 480GB"
 
 deviceQuery, CUDA Driver = CUDART, CUDA Driver Version = 12.2, CUDA Runtime Version = 12.4, NumDevs = 1
 Result = PASS
-$ cd ../bandwidthTest
-$ nvcc -I../../../Common -arch=native bandwidthTest.cu
-$ ./a.out
+$ nvcc -ICommon -arch=native bandwidthTest.cu
 $ ./a.out
 [CUDA Bandwidth Test] - Starting...
 Running on...
@@ -792,7 +790,7 @@ int main(int argc, char **argv) {
   cudaFree(device);
 }
 $ module purge
-$ module load $HOME/.grace/hpc_sdk/modulefiles/nvhpc/24.5
+$ module load /scratch/slitvinov/.grace/modulefiles/nvhpc/24.5
 $ nvcc disc2gpu.cu -arch=native -Xcompiler -mcpu=native
 $ for i in `seq 25 35`; do ./a.out $i 2>&1 | sh ./ts; echo; done
      0: size: 0.12GB
@@ -837,6 +835,8 @@ $ for i in `seq 25 35`; do ./a.out $i 2>&1 | sh ./ts; echo; done
 
      0: size: 128.00GB
      3: memory: cudaMalloc failed: 'out of memory'
+```
+
 ```
 
 Builds libffi
