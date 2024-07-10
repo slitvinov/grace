@@ -882,8 +882,6 @@ $HOME/.grace/bin/python3 -c "import tensorflow as tf; print(tf.config.list_physi
 
 MPI
 ```
-module purge
-module load /scratch/slitvinov/.grace/modulefiles/nvhpc/24.5
 cat mpi_init.c
 #include <mpi.h>
 #include <stdio.h>
@@ -891,6 +889,8 @@ int main(int argc, char **argv) {
   MPI_Init(&argc, &argv);
   MPI_Finalize();
 }
+module purge
+module load /scratch/slitvinov/.grace/modulefiles/nvhpc/24.5
 mpicc mpi_init.c
 mpiexec ./a.out
 ```
@@ -919,4 +919,11 @@ $ ./a.out
 00 03
 01 04
 ...
+```
+
+# Strange
+
+```
+Message from syslogd@holygpu7c1101 at Jul  9 10:18:37 ...
+kernel:watchdog: BUG: soft lockup - CPU#39 stuck for 38s! [a.out:27493]
 ```
