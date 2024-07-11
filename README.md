@@ -649,7 +649,20 @@ Dangerous builds not checked
 Total wall time: 0:02:38
 ```
 
-On [Intell Sapphire Rapids](https://en.wikipedia.org/wiki/Sapphire_Rapids) is is 0:01:40.
+On [Intel Sapphire Rapids](https://en.wikipedia.org/wiki/Sapphire_Rapids) is is `0:01:40`.
+
+[smarties](git@github.com:slitvinov/smarties)
+```
+git clone git@github.com:slitvinov/smarties
+cd smarties
+module load mpi/openmpi-aarch64
+make -j `nproc --all`
+make install
+(cd apps/cart_pole_cpp && make)
+(cd apps/cart_pole_f90 && make)
+apps/cart_pole_cpp/cart_pole
+apps/cart_pole_f90/main
+```
 
 [cuda samples](https://github.com/NVIDIA/cuda-samples)
 
