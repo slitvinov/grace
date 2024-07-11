@@ -858,8 +858,6 @@ $ for i in `seq 25 35`; do ./a.out $i 2>&1 | sh ./ts; echo; done
      3: memory: cudaMalloc failed: 'out of memory'
 ```
 
-```
-
 Builds libffi
 ```
 https://github.com/libffi/libffi/releases/download/v3.4.5/libffi-3.4.5.tar.gz
