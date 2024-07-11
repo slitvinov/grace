@@ -689,6 +689,14 @@ MAKEFLAGS=-j`nproc --all` PKG_CONFIG_PATH=/scratch/slitvinov/.grace/lib/pkgconfi
 for i in src/follow.py src/graph.py src/kahan.py; do LD_LIBRARY_PATH=/scratch/slitvinov/.grace/lib python3 -m doctest $i ; done
 ```
 
+[CUP3D](https://github.com/slitvinov/CUP3D.git)
+```
+git clone -q https://github.com/slitvinov/CUP3D.git
+cd CUP3D
+module load mpi/openmpi-aarch64
+PKG_CONFIG_PATH=/scratch/slitvinov/.grace/lib/pkgconfig:/scratch/slitvinov/.grace/share/pkgconfig:$PKG_CONFIG_PATH make MPICXX=mpicxx
+```
+
 [cuda samples](https://github.com/NVIDIA/cuda-samples)
 
 ```
