@@ -180,6 +180,7 @@ cd libevent-2.1.12-stable
 PATH=$HOME/.grace/bin:$PATH ./configure --enable-silent-rules --prefix=$HOME/.grace
 MAKEFLAGS=-j`nproc --all` make V=0
 make install
+```
 
 ```
 wget -q https://github.com/openpmix/prrte/releases/download/v3.0.5/prrte-3.0.5.tar.gz
@@ -549,6 +550,8 @@ STEP=5 t=0.01253013 dt=0.00313228 wt=38.86789264
 .....adv: t=0.01566241 dt=0.00313228
 ```
 
+On Hal Step=5 was done in 36 seconds (64 cores for both).
+
 [lammps](https://github.com/lammps/lammps)
 ```
 git clone --depth 1 https://github.com/lammps/lammps
@@ -645,6 +648,8 @@ Neighbor list builds = 100
 Dangerous builds not checked
 Total wall time: 0:02:38
 ```
+
+On sapphire is is 0:01:40.
 
 [cuda samples](https://github.com/NVIDIA/cuda-samples)
 
