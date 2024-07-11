@@ -163,8 +163,8 @@ bash <(curl -L https://developer.arm.com/-/media/Files/downloads/hpc/arm-compile
 wget -q https://github.com/HDFGroup/hdf5/releases/download/hdf5_1.14.4.3/hdf5-1.14.4-3.tar.gz
 tar zxf hdf5-1.14.4-3.tar.gz
 cd hdf5-1.14.4-3
-module load /scratch/slitvinov/.grace/modulefiles/nvhpc/24.5
-./configure --enable-parallel --prefix=/scratch/slitvinov/.grace --enable-fortran CC=mpicc FC=mpif90
+module load /scratch/`whoami`/.grace/modulefiles/nvhpc/24.5
+./configure --enable-parallel --prefix=/scratch/`whoami`/.grace --enable-fortran CC=mpicc FC=mpif90
 make -j`nproc -all`
 make install -j`nproc -all`
 ```
@@ -245,7 +245,8 @@ Triad:         332295.2     0.009136     0.008667     0.010838
 ```
 git clone git@github.com:slitvinov/taubench.git
 cd taubench
-module load /scratch/slitvinov/.grace/modulefiles/nvhpc/24.5
+module purge
+MODULEPATH=/scratch/`whoami`/.grace/modulefiles:$MODULEPATH module load nvhpc/24.5
 make -B 'CFLAGS = -Ofast -march=native'
 mpiexec ./taubench -n 100000 -s 100
 mpiexec -- ./taubench -n 100000 -s 100
@@ -651,7 +652,7 @@ Total wall time: 0:02:38
 $ git clone https://github.com/NVIDIA/cuda-samples.git
 $ cd cuda-samples/Samples/0_Introduction/vectorAdd
 $ module purge
-$ module load /scratch/slitvinov/.grace/modulefiles/nvhpc/24.5
+$ MODULEPATH=/scratch/`whoami`/.grace/modulefiles:$MODULEPATH module load nvhpc/24.5
 $ nvcc -I../../../Common -arch=native vectorAdd.cu
 $ ./a.out
 [Vector addition of 50000 elements]
@@ -805,7 +806,7 @@ int main(int argc, char **argv) {
   cudaFree(device);
 }
 $ module purge
-$ module load /scratch/slitvinov/.grace/modulefiles/nvhpc/24.5
+$ MODULEPATH=/scratch/`whoami`/.grace/modulefiles:$MODULEPATH module load nvhpc/24.5
 $ nvcc disc2gpu.cu -arch=native -Xcompiler -mcpu=native
 $ for i in `seq 25 35`; do ./a.out $i 2>&1 | sh ./ts; echo; done
      0: size: 0.12GB
@@ -905,7 +906,7 @@ int main(int argc, char **argv) {
   MPI_Finalize();
 }
 module purge
-module load /scratch/slitvinov/.grace/modulefiles/nvhpc/24.5
+MODULEPATH=/scratch/`whoami`/.grace/modulefiles:$MODULEPATH module load nvhpc/24.5
 mpicc mpi_init.c
 mpiexec ./a.out
 ```
