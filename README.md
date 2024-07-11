@@ -649,7 +649,7 @@ Dangerous builds not checked
 Total wall time: 0:02:38
 ```
 
-On sapphire is is 0:01:40.
+On [Intell Sapphire Rapids](https://en.wikipedia.org/wiki/Sapphire_Rapids) is is 0:01:40.
 
 [cuda samples](https://github.com/NVIDIA/cuda-samples)
 
