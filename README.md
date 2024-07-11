@@ -203,6 +203,8 @@ make install
 
 <https://nvidia.github.io/grace-cpu-benchmarking-guide/foundations/FMA/index.html>
 
+[arm-kernels](https://github.com/NVIDIA/arm-kernels.git)
+
 ```
 git clone https://github.com/NVIDIA/arm-kernels.git
 cd arm-kernels
@@ -238,12 +240,15 @@ Add:           332872.1     0.009189     0.008652     0.013968
 Triad:         332295.2     0.009136     0.008667     0.010838
 ```
 
+[taubench](https://github.com/slitvinov/taubench)
+
 ```
 git clone git@github.com:slitvinov/taubench.git
 cd taubench
-PATH=$HOME/.grace/bin:$PATH make -B 'CFLAGS = -Ofast -march=native'
-PATH=$HOME/.grace/bin:$PATH LD_LIBRARY_PATH=$HOME/.grace/lib mpiexec ./taubench -n 100000 -s 100
-PATH=$HOME/.grace/bin:$PATH LD_LIBRARY_PATH=$HOME/.grace/lib:$HOME/.grace/lib64 mpiexec -- ./taubench -n 100000 -s 100
+module load /scratch/slitvinov/.grace/modulefiles/nvhpc/24.5
+make -B 'CFLAGS = -Ofast -march=native'
+mpiexec ./taubench -n 100000 -s 100
+mpiexec -- ./taubench -n 100000 -s 100
 	- kernel_1_0 :      3.813 secs -   3690.154 mflops
 	- kernel_1_1 :      1.641 secs -   1329.123 mflops
 	- kernel_2_1 :      2.952 secs -   3364.155 mflops
@@ -268,9 +273,8 @@ comm ratio :      0.021
 ```
 git clone https://github.com/graph500/graph500.git
 cd graph500/src
-sed -i '/^CFLAGS/s/$/ -DPROCS_PER_NODE_NOT_POWER_OF_TWO -fcommon/' Makefile
-PATH=$HOME/.grace/bin:$PATH make
-SKIP_VALIDATION=1 PATH=$HOME/.grace/bin:$PATH LD_LIBRARY_PATH=$HOME/.grace/lib:$HOME/.grace/lib64 mpiexec --map-by core -- graph500_reference_bfs 28 16
+make
+SKIP_VALIDATION=1 mpiexec --map-by core -- graph500_reference_bfs 28 16
 graph_generation:               37.564225 s
 construction_time:              19.833230 s
 Running BFS 0
