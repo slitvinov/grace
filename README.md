@@ -664,6 +664,30 @@ apps/cart_pole_cpp/cart_pole
 apps/cart_pole_f90/main
 ```
 
+[korali](https://github.com/slitvinov/dcomex-framework)
+```
+wget -q https://mirror.ibcp.fr/pub/gnu/gsl/gsl-latest.tar.gz
+tar zxf gsl-latest.tar.gz
+cd gsl-*/
+./configure --prefix /scratch/slitvinov/.grace
+make -j `nproc -all`
+make install
+
+wget -q https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz
+tar zxf eigen-3.4.0.tar.gz
+cd eigen-3.4.0
+mkdir build
+cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=/scratch/slitvinov/.grace
+make install
+
+python3 -m pip install pybind11
+python3 -m pip install mpi4py
+git clone git@github.com:slitvinov/dcomex-framework
+cd dcomex-framework
+PKG_CONFIG_PATH=$HOME/.grace/lib/pkgconfig:$PKG_CONFIG_PATH make lkorali 'USER = 0'
+```
+
 [cuda samples](https://github.com/NVIDIA/cuda-samples)
 
 ```
