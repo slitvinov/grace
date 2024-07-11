@@ -686,6 +686,7 @@ python3 -m pip install mpi4py
 git clone git@github.com:slitvinov/dcomex-framework
 cd dcomex-framework
 MAKEFLAGS=-j`nproc --all` PKG_CONFIG_PATH=/scratch/slitvinov/.grace/lib/pkgconfig:/scratch/slitvinov/.grace/share/pkgconfig:$PKG_CONFIG_PATH make USER=1 'CXXFLAGS_PYBIND11 =-I$(HOME)/.local/lib/python3.9/site-packages/pybind11/include' lib lkorali
+for i in src/follow.py src/graph.py src/kahan.py; do LD_LIBRARY_PATH=/scratch/slitvinov/.grace/lib python3 -m doctest $i ; done
 ```
 
 [cuda samples](https://github.com/NVIDIA/cuda-samples)
