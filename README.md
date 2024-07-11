@@ -685,7 +685,7 @@ python3 -m pip install pybind11
 python3 -m pip install mpi4py
 git clone git@github.com:slitvinov/dcomex-framework
 cd dcomex-framework
-PKG_CONFIG_PATH=/scratch/slitvinov/.grace/lib/pkgconfig:/scratch/slitvinov/.grace/share/pkgconfig:$PKG_CONFIG_PATH make lkorali 'USER = 0' 'CXXFLAGS_PYBIND11 =-I$(HOME)/.local/lib/python3.9/site-packages/pybind11/include'
+PKG_CONFIG_PATH=/scratch/slitvinov/.grace/lib/pkgconfig:/scratch/slitvinov/.grace/share/pkgconfig:$PKG_CONFIG_PATH make lkorali 'USER = 0' 'CXXFLAGS_PYBIND11 =-I$(HOME)/.local/lib/python3.9/site-packages/pybind11/include' -j `nproc --all`
 ```
 
 [cuda samples](https://github.com/NVIDIA/cuda-samples)
