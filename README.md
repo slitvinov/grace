@@ -119,21 +119,9 @@ REDHAT_SUPPORT_PRODUCT="Red Hat Enterprise Linux"
 REDHAT_SUPPORT_PRODUCT_VERSION="9.3"
 ```
 
-# Install tools
+# Software stack
 
-HDF5
-
-```
-wget -q https://github.com/HDFGroup/hdf5/releases/download/hdf5_1.14.4.3/hdf5-1.14.4-3.tar.gz
-tar zxf hdf5-1.14.4-3.tar.gz
-cd hdf5-1.14.4-3
-module load /scratch/slitvinov/.grace/modulefiles/nvhpc/24.5
-./configure --enable-parallel --prefix=$HOME/.grace --enable-fortran CC=mpicc FC=mpif90
-make -j`nproc -all`
-make install -j`nproc -all`
-```
-
-Install [NVIDIA HPC SDK](https://developer.nvidia.com/hpc-sdk-downloads)
+[NVIDIA HPC SDK](https://developer.nvidia.com/hpc-sdk-downloads)
 
 ```
 wget -q https://developer.download.nvidia.com/hpc-sdk/24.5/nvhpc_2024_245_Linux_aarch64_cuda_12.4.tar.gz
@@ -156,6 +144,29 @@ appropriate module files.
 ...
 % module load /scratch/slitvinov/.grace/modulefiles/nvhpc/24.5
 ...
+```
+
+[Clang for NVIDIA Grace](https://developer.nvidia.com/grace/clang)
+```
+wget -q https://developer.nvidia.com/downloads/assets/grace/clang/18.24.05/clang-grace-toolchain-18.24.05.tgz
+tar zxf clang-grace-toolchain-18.24.05.tgz
+```
+
+[Arm Compiler for Linux](https://developer.arm.com/Tools%20and%20Software/Arm%20Compiler%20for%20Linux#Software-Download)
+```
+bash <(curl -L https://developer.arm.com/-/media/Files/downloads/hpc/arm-compiler-for-linux/install.sh)
+```
+
+[HDF5](https://www.hdfgroup.org/solutions/hdf5)
+
+```
+wget -q https://github.com/HDFGroup/hdf5/releases/download/hdf5_1.14.4.3/hdf5-1.14.4-3.tar.gz
+tar zxf hdf5-1.14.4-3.tar.gz
+cd hdf5-1.14.4-3
+module load /scratch/slitvinov/.grace/modulefiles/nvhpc/24.5
+./configure --enable-parallel --prefix=/scratch/slitvinov/.grace --enable-fortran CC=mpicc FC=mpif90
+make -j`nproc -all`
+make install -j`nproc -all`
 ```
 
 [OpenMPI](https://nvidia.github.io/grace-cpu-benchmarking-guide/benchmarks/Graph500/index.html),
