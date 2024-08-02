@@ -163,10 +163,10 @@ bash <(curl -L https://developer.arm.com/-/media/Files/downloads/hpc/arm-compile
 wget -q https://github.com/HDFGroup/hdf5/releases/download/hdf5_1.14.4.3/hdf5-1.14.4-3.tar.gz
 tar zxf hdf5-1.14.4-3.tar.gz
 cd hdf5-1.14.4-3
-module load mpi/openmpi-aarch64
+MODULEPATH=/scratch/`whoami`/.grace/modulefiles:$MODULEPATH module load nvhpc/24.5
 ./configure --enable-parallel --prefix=/scratch/`whoami`/.grace --enable-fortran CC=mpicc FC=mpif90
-make -j`nproc -all`
-make install -j`nproc -all`
+make -j `nproc -all`
+make install -j `nproc -all`
 ```
 
 [OpenMPI](https://nvidia.github.io/grace-cpu-benchmarking-guide/benchmarks/Graph500/index.html),
@@ -177,7 +177,7 @@ needs [libevent](https://libevent.org) and
 wget -q https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz
 tar -xzf libevent-2.1.12-stable.tar.gz
 cd libevent-2.1.12-stable
-PATH=$HOME/.grace/bin:$PATH ./configure --enable-silent-rules --prefix=$HOME/.grace
+PATH=/scratch/.grace/bin:$PATH ./configure --enable-silent-rules --prefix=$HOME/.grace
 MAKEFLAGS=-j`nproc --all` make V=0
 make install
 ```
@@ -186,7 +186,7 @@ make install
 wget -q https://github.com/openpmix/prrte/releases/download/v3.0.5/prrte-3.0.5.tar.gz
 tar zxf prrte-3.0.5.tar.gz
 cd prrte-3.0.5
-PKG_CONFIG_PATH=$HOME/.grace/lib/pkgconfig:$PKG_CONFIG_PATH PATH=$HOME/.grace/bin:$PATH ./configure --prefix=$HOME/.grace --enable-silent-rules
+PKG_CONFIG_PATH=/scratch/.grace/lib/pkgconfig:$PKG_CONFIG_PATH PATH=/scratch/.grace/bin:$PATH ./configure --prefix=$HOME/.grace --enable-silent-rules
 MAKEFLAGS=-j`nproc --all` make
 make install
 ```
@@ -195,7 +195,7 @@ make install
 wget -q https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-5.0.1.tar.gz
 tar -xzf openmpi-5.0.1.tar.gz
 cd openmpi-5.0.1
-PKG_CONFIG_PATH=$HOME/.grace/lib/pkgconfig:$PKG_CONFIG_PATH PATH=$HOME/.grace/bin:$PATH ./configure --prefix=$HOME/.grace --enable-silent-rules
+PKG_CONFIG_PATH=/scratch/.grace/lib/pkgconfig:$PKG_CONFIG_PATH PATH=/scratch/.grace/bin:$PATH ./configure --prefix=$HOME/.grace --enable-silent-rules
 MAKEFLAGS=-j`nproc --all` make V=0
 make install
 ```
@@ -209,7 +209,7 @@ make install
 ```
 git clone https://github.com/NVIDIA/arm-kernels.git
 cd arm-kernels
-PATH=$HOME/.grace/bin:$PATH MAKEFLAGS=-j`nproc --all` make 'CXXFLAGS = -Ofast -mcpu=native -Wl,-R$(HOME)/.grace/lib64'
+PATH=/scratch/.grace/bin:$PATH MAKEFLAGS=-j`nproc --all` make 'CXXFLAGS = -Ofast -mcpu=native -Wl,-R$(HOME)/.grace/lib64'
 ./arithmetic/fp64_sve_pred_fmla.x
 4( 32(SVE_FMLA_64b) );
 Iterations;100000000
@@ -229,7 +229,7 @@ $ perf
 ```
 $ wget https://www.cs.virginia.edu/stream/FTP/Code/stream.c
 $ STREAM_ARRAY_SIZE="($(nproc --all)/72*120000000)"
-$ PATH=$HOME/.grace/bin:$PATH gcc -Ofast -march=native -fopenmp -mcmodel=large -fno-PIC \
+$ PATH=/scratch/.grace/bin:$PATH gcc -Ofast -march=native -fopenmp -mcmodel=large -fno-PIC \
 	-DSTREAM_ARRAY_SIZE=${STREAM_ARRAY_SIZE} -DNTIMES=200 \
 	-o stream_openmp.exe stream.c
 $ OMP_NUM_THREADS=72 OMP_PROC_BIND=spread ./stream_openmp.exe
@@ -515,17 +515,17 @@ cd aphros/deploy
 . ap.setenv
 mkdir build
 cd build
-PATH=$HOME/.grace/bin:$PATH cmake ..
+PATH=/scratch/.grace/bin:$PATH cmake ..
 cmake --build . --parallel `nproc -all` -v
 cmake --install .
 cd ../../src
 mkdir build
 cd build
-cmake .. -DUSE_HYPRE=0 -DFIND_HDF=0 -DUSE_TESTS=0 -DUSE_BACKEND_CUBISM=0 -DUSE_BACKEND_LOCAL=1 -DUSE_BACKEND_NATIVE=1 -DUSE_HDF=0 -DUSE_AVX=0 -DUSE_OPENMP=0 -DMPI_CXX_COMPILER=$HOME/.grace/bin/mpicxx -DMPI_C_COMPILER=$HOME/.grace/bin/mpicc -DCMAKE_CXX_FLAGS='-Ofast -mcpu=native'  -DCMAKE_C_FLAGS='-Ofast -mcpu=native'
+cmake .. -DUSE_HYPRE=0 -DFIND_HDF=0 -DUSE_TESTS=0 -DUSE_BACKEND_CUBISM=0 -DUSE_BACKEND_LOCAL=1 -DUSE_BACKEND_NATIVE=1 -DUSE_HDF=0 -DUSE_AVX=0 -DUSE_OPENMP=0 -DMPI_CXX_COMPILER=/scratch/.grace/bin/mpicxx -DMPI_C_COMPILER=/scratch/.grace/bin/mpicc -DCMAKE_CXX_FLAGS='-Ofast -mcpu=native'  -DCMAKE_C_FLAGS='-Ofast -mcpu=native'
 cmake --build . --parallel `nproc -all` --verbose
 cmake --install .
 cd ../../examples/202_coalescence
-PATH=$HOME/.grace/bin:$PATH LD_LIBRARY_PATH=$HOME/.grace/lib:$HOME/.grace/lib64:$LD_LIBRARY_PATH make run
+PATH=/scratch/.grace/bin:$PATH LD_LIBRARY_PATH=/scratch/.grace/lib:/scratch/.grace/lib64:$LD_LIBRARY_PATH make run
 STEP=0 t=0.00000000 dt=0.00000100 wt=0.96850208
 .....iter=1, diff=0.0000000000000000e+00
 .....adv: t=0.00000100 dt=0.00000100
@@ -557,7 +557,7 @@ On Hal Step=5 was done in 36 seconds (64 cores for both).
 git clone --depth 1 https://github.com/lammps/lammps
 cd lammps/src
 make yes-DPD-BASIC
-PATH=$HOME/.grace/bin:$PATH make mpi -j `nproc --all` 'LMP_INC = -DLAMMPS_BIGBIG' 'CCFLAGS = -Ofast -mcpu=native'
+PATH=/scratch/.grace/bin:$PATH make mpi -j `nproc --all` 'LMP_INC = -DLAMMPS_BIGBIG' 'CCFLAGS = -Ofast -mcpu=native'
 cp lmp_mpi ~/.grace/bin/
 $ cat in.run
 variable        number_density equal 10
@@ -581,7 +581,7 @@ timer           ${timer}
 thermo          10
 thermo_modify   flush yes
 run             100
-PATH=$HOME/.grace/bin:$PATH LD_LIBRARY_PATH=$HOME/.grace/lib:$HOME/.grace/lib64:$LD_LIBRARY_PATH mpiexec -- lmp_mpi -in in.run -var tasks_per_node `nproc --all` -var Lx 166 -var Ly 166 -var Lz 290 -var timer 'full' -log run.log
+PATH=/scratch/.grace/bin:$PATH LD_LIBRARY_PATH=/scratch/.grace/lib:/scratch/.grace/lib64:$LD_LIBRARY_PATH mpiexec -- lmp_mpi -in in.run -var tasks_per_node `nproc --all` -var Lx 166 -var Ly 166 -var Lz 290 -var timer 'full' -log run.log
 LAMMPS (27 Jun 2024)
 Created orthogonal box = (0 0 0) to (166 166 290)
   3 by 4 by 6 MPI processor grid
@@ -909,8 +909,8 @@ Builds libffi
 https://github.com/libffi/libffi/releases/download/v3.4.5/libffi-3.4.5.tar.gz
 tar zxf libffi-3.4.5.tar.gz
 cd libffi-3.4.5
-PATH=$HOME/.grace/bin:$PATH ./configure --prefix=$HOME/.grace
-PATH=$HOME/.grace/bin:$PATH make -j `nproc --all`
+PATH=/scratch/.grace/bin:$PATH ./configure --prefix=$HOME/.grace
+PATH=/scratch/.grace/bin:$PATH make -j `nproc --all`
 make install
 ```
 
@@ -920,29 +920,30 @@ wget -q https://www.python.org/ftp/python/3.11.9/Python-3.11.9.tgz
 tar zxf Python-3.11.9.tgz
 cd Python-3.11.9
 module purge
-PATH=$HOME/.grace/bin:$PATH ./configure --enable-optimizations --prefix=$HOME/.grace
-PATH=$HOME/.grace/bin:$PATH make -j `nproc --all`
+PATH=/scratch/.grace/bin:$PATH ./configure --enable-optimizations --prefix=$HOME/.grace
+PATH=/scratch/.grace/bin:$PATH make -j `nproc --all`
 make install
 ```
 
 Install jax
 ```
-$HOME/.grace/bin/python3 -m pip install -U 'jax[cuda12]'
-$HOME/.grace/bin/python3 -c 'import jax; print(jax.default_backend())'
+/scratch/.grace/bin/python3 -m pip install -U 'jax[cuda12]'
+/scratch/.grace/bin/python3 -c 'import jax; print(jax.default_backend())'
 gpu
 ```
 
 Install pytorch
 ```
-$HOME/.grace/bin/python3 -m pip install --pre torch --index-url https://download.pytorch.org/whl/nightly
-$HOME/.grace/bin/python3 -c 'import torch; print(torch.cuda.is_available())'
+/scratch/.grace/bin/python3 -m pip install --pre torch --index-url https://download.pytorch.org/whl/nightly
+/scratch/.grace/bin/python3 -c 'import torch; print(torch.cuda.is_available())'
 True
 ```
 
 Install tensorflow
 ```
-$HOME/.grace/bin/python3 -m pip install tf-nightly
-$HOME/.grace/bin/python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
+MODULEPATH=/scratch/`whoami`/.grace/modulefiles:$MODULEPATH module load nvhpc/24.5
+python3 -m pip install tf-nightly
+python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
 ```
 
 MPI
