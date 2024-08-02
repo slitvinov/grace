@@ -942,6 +942,7 @@ True
 Install tensorflow (needs libhdf5):
 ```
 MODULEPATH=/scratch/`whoami`/.grace/modulefiles:$MODULEPATH module load nvhpc/24.5
+CC=mpicxx HDF5_MPI=ON HDF5_DIR=/scratch/slitvinov/.grace python3 -m pip install --no-cache h5py
 python3 -m pip install tf-nightly
 python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
 ```
