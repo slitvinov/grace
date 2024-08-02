@@ -177,7 +177,7 @@ needs [libevent](https://libevent.org) and
 wget -q https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz
 tar -xzf libevent-2.1.12-stable.tar.gz
 cd libevent-2.1.12-stable
-PATH=/scratch/.grace/bin:$PATH ./configure --enable-silent-rules --prefix=$HOME/.grace
+PATH=/scratch/.grace/bin:$PATH ./configure --enable-silent-rules --prefix=/scratch/`whoami`/.grace/
 MAKEFLAGS=-j`nproc --all` make V=0
 make install
 ```
@@ -186,7 +186,7 @@ make install
 wget -q https://github.com/openpmix/prrte/releases/download/v3.0.5/prrte-3.0.5.tar.gz
 tar zxf prrte-3.0.5.tar.gz
 cd prrte-3.0.5
-PKG_CONFIG_PATH=/scratch/.grace/lib/pkgconfig:$PKG_CONFIG_PATH PATH=/scratch/.grace/bin:$PATH ./configure --prefix=$HOME/.grace --enable-silent-rules
+PKG_CONFIG_PATH=/scratch/.grace/lib/pkgconfig:$PKG_CONFIG_PATH PATH=/scratch/.grace/bin:$PATH ./configure --prefix=/scratch/`whoami`/.grace/ --enable-silent-rules
 MAKEFLAGS=-j`nproc --all` make
 make install
 ```
@@ -195,7 +195,7 @@ make install
 wget -q https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-5.0.1.tar.gz
 tar -xzf openmpi-5.0.1.tar.gz
 cd openmpi-5.0.1
-PKG_CONFIG_PATH=/scratch/.grace/lib/pkgconfig:$PKG_CONFIG_PATH PATH=/scratch/.grace/bin:$PATH ./configure --prefix=$HOME/.grace --enable-silent-rules
+PKG_CONFIG_PATH=/scratch/.grace/lib/pkgconfig:$PKG_CONFIG_PATH PATH=/scratch/.grace/bin:$PATH ./configure --prefix=/scratch/`whoami`/.grace/ --enable-silent-rules
 MAKEFLAGS=-j`nproc --all` make V=0
 make install
 ```
@@ -909,7 +909,7 @@ Builds libffi
 https://github.com/libffi/libffi/releases/download/v3.4.5/libffi-3.4.5.tar.gz
 tar zxf libffi-3.4.5.tar.gz
 cd libffi-3.4.5
-PATH=/scratch/.grace/bin:$PATH ./configure --prefix=$HOME/.grace
+PATH=/scratch/.grace/bin:$PATH ./configure --prefix=/scratch/`whoami`/.grace/
 PATH=/scratch/.grace/bin:$PATH make -j `nproc --all`
 make install
 ```
@@ -920,7 +920,7 @@ wget -q https://www.python.org/ftp/python/3.11.9/Python-3.11.9.tgz
 tar zxf Python-3.11.9.tgz
 cd Python-3.11.9
 module purge
-PATH=/scratch/.grace/bin:$PATH ./configure --enable-optimizations --prefix=$HOME/.grace
+PATH=/scratch/.grace/bin:$PATH ./configure --enable-optimizations --prefix=/scratch/`whoami`/.grace/
 PATH=/scratch/.grace/bin:$PATH make -j `nproc --all`
 make install
 ```
