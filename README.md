@@ -939,7 +939,7 @@ Install pytorch
 True
 ```
 
-Install tensorflow
+Install tensorflow (needs libhdf5):
 ```
 MODULEPATH=/scratch/`whoami`/.grace/modulefiles:$MODULEPATH module load nvhpc/24.5
 python3 -m pip install tf-nightly
