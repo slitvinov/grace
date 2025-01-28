@@ -906,7 +906,7 @@ $ for i in `seq 25 35`; do ./a.out $i 2>&1 | sh ./ts; echo; done
 
 Builds libffi
 ```
-https://github.com/libffi/libffi/releases/download/v3.4.5/libffi-3.4.5.tar.gz
+wget -q https://github.com/libffi/libffi/releases/download/v3.4.5/libffi-3.4.5.tar.gz
 tar zxf libffi-3.4.5.tar.gz
 cd libffi-3.4.5
 ./configure --prefix=/scratch/`whoami`/.grace/
@@ -920,7 +920,8 @@ wget -q https://www.python.org/ftp/python/3.11.9/Python-3.11.9.tgz
 tar zxf Python-3.11.9.tgz
 cd Python-3.11.9
 module purge
-PKG_CONFIG_PATH=/scratch/`whoami`/.grace/lib/pkgconfig PATH=/scratch/`whoami`/.grace/bin:$PATH ./configure --prefix=/scratch/`whoami`/.grace/ --enable-optimizations --disable-test-modules
+PATH=/scratch/`whoami`/.grace/bin:$PATH ./configure --prefix=/scratch/`whoami`/.grace/ --enable-optimizations --disable-test-modules LDFLAGS="-L/scratch/`whoami`/.grace/lib64/ -lffi"
+LD_LIBRARY_PATH=/scratch/`whoami`/.grace/lib64 make -j`nproc --all`
 make -j`nproc --all`
 make install
 ```
