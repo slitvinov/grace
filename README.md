@@ -989,6 +989,33 @@ $ ./a.out
 ...
 ```
 
+# S3
+
+```
+$ wget -q https://go.dev/dl/go1.24.1.linux-arm64.tar.gz
+$ tar -C /scratch/`whoami`/.grace -xzf go1.24.1.linux-arm64.tar.gz
+$ export GOPATH=/scratch/`whoami`/.grace/work
+$ PATH=/scratch/`whoami`/.grace/go/bin:$PATH
+$ go install github.com/kahing/goofys@350ff312abaa1abcf21c5a06e143c7edffe9e2f4
+$ mkdir -p s3
+$ /scratch/`whoami`/.grace/work/bin/goofys --endpoint https://s3.amazonaws.com noaa-goes18 s3
+$ ls s3 | head -n2
+ABI-L1b-RadC
+ABI-L1b-RadF
+$ ncdump -h s3/ABI-L2-ACMM/2025/080/15/OR_ABI-L2-ACMM2-M6_G18_s20250801554555_e20250801555012_c20250801555174.nc | head
+netcdf OR_ABI-L2-ACMM2-M6_G18_s20250801554555_e20250801555012_c20250801555174 {
+dimensions:
+	y = 500 ;
+	x = 500 ;
+	number_of_time_bounds = 2 ;
+	band = 1 ;
+	number_of_image_bounds = 2 ;
+	number_of_LZA_bounds = 2 ;
+	number_of_SZA_bounds = 2 ;
+	RTM_BT_comparison_bands = 2 ;
+```
+
+
 # Strange
 
 ```
