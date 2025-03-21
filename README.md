@@ -992,6 +992,13 @@ $ ./a.out
 # S3
 
 ```
+$ date && aws s3 sync --no-sign-request --only-show-errors s3://noaa-goes18/ABI-L1b-RadF/2024/250 data && date; du -sh data
+Fri Mar 21 11:24:35 AM EDT 2025
+Fri Mar 21 11:31:13 AM EDT 2025
+92G	data
+```
+
+```
 $ wget -q https://go.dev/dl/go1.24.1.linux-arm64.tar.gz
 $ tar -C /scratch/`whoami`/.grace -xzf go1.24.1.linux-arm64.tar.gz
 $ export GOPATH=/scratch/`whoami`/.grace/work
