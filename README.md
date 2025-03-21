@@ -928,15 +928,15 @@ make install
 
 Install jax
 ```
-/scratch/`whoami`/.grace/bin/python3 -m pip install -U 'jax[cuda12]'
-/scratch/`whoami`/.grace/bin/python3 -c 'import jax; print(jax.default_backend())'
+python3 -m pip install -U 'jax[cuda12]'
+python3 -c 'import jax; print(jax.default_backend())'
 gpu
 ```
 
 Install pytorch
 ```
-/scratch/`whoami`/.grace/bin/python3 -m pip install --pre torch --index-url https://download.pytorch.org/whl/nightly
-/scratch/`whoami`/.grace/bin/python3 -c 'import torch; print(torch.cuda.is_available())'
+python3 -m pip install --pre torch --index-url https://download.pytorch.org/whl/nightly
+python3 -c 'import torch; print(torch.cuda.is_available())'
 True
 ```
 
@@ -944,7 +944,7 @@ Install tensorflow (needs libhdf5):
 ```
 MODULEPATH=/scratch/`whoami`/.grace/modulefiles:$MODULEPATH module load nvhpc/24.5
 CC=mpicxx HDF5_MPI=ON HDF5_DIR=/scratch/`whoami`/.grace python3 -m pip install --no-cache h5py
-python3 -m pip install tf-nightly
+python3 -m pip install 'tensorflow[and-cuda]'
 python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
 ```
 
