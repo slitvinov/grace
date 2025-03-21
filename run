@@ -1,0 +1,5 @@
+geo2grid.sh -r abi_l1b -w geotiff --num-workers 8 -f .
+geo2grid.sh -r abi_l1b -w geotiff -p C01 C02 C03 C05 true_color -f .
+geo2grid.sh -r abi_l1b -w geotiff -p natural_color --ll-bbox -128 30 -118 40 -f OR_ABI-L1b-RadF-M6C*_G18_s20223191830*.nc
+add_coastlines.sh --add-coastlines --add-borders --borders-resolution=h --borders-outline='red' --add-grid GOES-18_ABI_RadF_natural_color_20221115_183020_GOES-West.tif -o my_goes18_abi_naturalcolor.png
+
