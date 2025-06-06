@@ -38,6 +38,17 @@ procs      :         72
 comp       :     13.691 secs
 comm       :      1.190 secs
 comm ratio :      0.087
+$ for i in 1 2 3 4 5 6 7 8 9 10; do mpiexec --mca btl vader ./taubench -n 1000000 -s 10 | grep 'comp       :'; done
+comp       :     13.842 secs
+comp       :     13.721 secs
+comp       :     13.846 secs
+comp       :     13.973 secs
+comp       :     13.375 secs
+comp       :     13.770 secs
+comp       :     13.828 secs
+comp       :     13.846 secs
+comp       :     13.506 secs
+comp       :     14.267 secs
 ```
 
 ```
@@ -65,4 +76,15 @@ procs      :         72
 comp       :     13.896 secs
 comm       :      0.792 secs
 comm ratio :      0.057
+$ for i in 1 2 3 4 5 6 7 8 9 10; do mpiexec --mca btl vader ./taubench -n 1000000 -s 10 | grep 'comp       :'; done
+comp       :     13.936 secs
+comp       :     13.880 secs
+comp       :     13.791 secs
+comp       :     14.249 secs
+comp       :     13.987 secs
+comp       :     13.494 secs
+comp       :     13.518 secs
+comp       :     13.918 secs
+comp       :     14.187 secs
+comp       :     13.497 secs
 ```
