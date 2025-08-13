@@ -935,6 +935,7 @@ gpu
 
 Install pytorch
 ```
+LD_LIBRARY_PATH=/scratch/`whoami`/.grace/lib/python3.11/site-packages/nvidia/nvshmem/lib/ python3 -c 'import torch; print(torch.cuda.is_available())'
 python3 -m pip install --pre torch --index-url https://download.pytorch.org/whl/nightly
 python3 -c 'import torch; print(torch.cuda.is_available())'
 True
