@@ -124,26 +124,19 @@ REDHAT_SUPPORT_PRODUCT_VERSION="9.3"
 [NVIDIA HPC SDK](https://developer.nvidia.com/hpc-sdk-downloads)
 
 ```
-wget -q https://developer.download.nvidia.com/hpc-sdk/24.5/nvhpc_2024_245_Linux_aarch64_cuda_12.4.tar.gz
-tar zxf nvhpc_2024_245_Linux_aarch64_cuda_12.4.tar.gz
-printf '
-1
-/scratch/`whoami`/.grace
-' | nvhpc_2024_245_Linux_aarch64_cuda_12.4/install
-...
-Installing NVIDIA HPC SDK version 24.5 into /scratch/`whoami`/.grace
-Making symbolic link in /scratch/`whoami`/.grace/Linux_aarch64
-
-generating environment modules for NV HPC SDK 24.5 ... done.
-Installation complete.
-HPC SDK successfully installed into /scratch/`whoami`/.grace
-
-If you use the Environment Modules package, that is, the module load
-command, the NVIDIA HPC SDK includes a script to set up the
-appropriate module files.
-...
-% module load /scratch/`whoami`/.grace/modulefiles/nvhpc/24.5
-...
+VER=26.5
+ARCH=$(uname -m)
+PREFIX=/scratch/$(whoami)/.hpc-sdk
+major=${VER%.*}; minor=${VER#*.}
+YEAR=$((2000 + major))
+PACK=$major$minor
+base=nvhpc_${YEAR}_${PACK}_Linux_${ARCH}_cuda_multi
+url=https://developer.download.nvidia.com/hpc-sdk/${VER}/${base}.tar.gz
+wget -q "$url"
+tar zxf "$base.tar.gz"
+NVHPC_SILENT=true NVHPC_INSTALL_DIR="$PREFIX" NVHPC_INSTALL_TYPE=single ./"$base"/install
+ml use "$PREFIX/modulefiles"
+ml nvhpc
 ```
 
 [Clang for NVIDIA Grace](https://developer.nvidia.com/grace/clang)
